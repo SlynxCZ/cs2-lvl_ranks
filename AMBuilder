@@ -20,6 +20,7 @@ for sdk_target in MMSPlugin.sdk_targets:
   binary.compiler.cxxincludes += [
     os.path.join(builder.sourcePath, 'include'),
     os.path.join(builder.sourcePath, 'SchemaEntity'),
+    os.path.join(builder.sourcePath, 'protobufs'),
   ]
 
   binary.sources += [

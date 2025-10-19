@@ -20,7 +20,7 @@ std::map<std::string, std::string> g_vecPhrases;
 char g_sPluginTitle[64], 
 	g_sTableName[32];
 
-int g_Settings[22],
+int g_Settings[25],
 	g_SettingsStats[18];
 
 LR_PlayerInfo	g_iPlayerInfo[64], 
