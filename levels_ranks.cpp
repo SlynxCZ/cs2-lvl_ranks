@@ -175,6 +175,8 @@ void LoadConfig()
 
 			g_Settings[LR_ShowLevelUpMessage] = pKVConfigMain->GetInt("lr_show_levelup_message", 0);
 			g_Settings[LR_ShowLevelDownMessage] = pKVConfigMain->GetInt("lr_show_leveldown_message", 0);
+
+			g_Settings[LR_MinimumKills] = pKVConfigMain->GetInt("lr_minimum_kills", 0);
 		}
 		else
 		{
@@ -569,20 +571,31 @@ void ResetPlayerStats(int iSlot)
 
 bool NotifClient(int iSlot, int iValue, const char* sTitlePhrase, bool bAllow = false)
 {
-	if(CheckStatus(iSlot) && (bAllow || g_bAllowStatistic))
+	if (CheckStatus(iSlot) && (bAllow || g_bAllowStatistic))
 	{
-		g_pLRApi->SendOnExpChangedPreHook(iSlot, iValue);
-		if(iValue != 0)
+		int iMinKills = g_Settings[LR_MinimumKills];
+		if (iMinKills > 0 && g_iPlayerInfo[iSlot].iStats[ST_KILLS] < iMinKills)
 		{
-			int iExpBuffer = 0,
-				iOldExp = g_iPlayerInfo[iSlot].iStats[ST_EXP];
+			if (g_Settings[LR_ShowUsualMessage])
+			{
+				ClientPrint(iSlot, g_vecPhrases[std::string("NotEnoughKills")].c_str(), iMinKills);
+			}
+			return false;
+		}
 
-			if(g_Settings[LR_TypeStatistics])
+		g_pLRApi->SendOnExpChangedPreHook(iSlot, iValue);
+
+		if (iValue != 0)
+		{
+			int iExpBuffer = 0;
+			int iOldExp = g_iPlayerInfo[iSlot].iStats[ST_EXP];
+
+			if (g_Settings[LR_TypeStatistics])
 			{
 				iExpBuffer = 400;
 			}
 
-			if((g_iPlayerInfo[iSlot].iStats[ST_EXP] += iValue) < iExpBuffer)
+			if ((g_iPlayerInfo[iSlot].iStats[ST_EXP] += iValue) < iExpBuffer)
 			{
 				g_iPlayerInfo[iSlot].iStats[ST_EXP] = iExpBuffer;
 			}
@@ -594,10 +607,10 @@ bool NotifClient(int iSlot, int iValue, const char* sTitlePhrase, bool bAllow = 
 
 			g_pLRApi->SendOnExpChangedPostHook(iSlot, iExpBuffer, g_iPlayerInfo[iSlot].iStats[ST_EXP]);
 
-			if(g_Settings[LR_ShowUsualMessage] == 1)
+			if (g_Settings[LR_ShowUsualMessage] == 1)
 			{
 				char sValue[64];
-				g_SMAPI->Format(sValue, sizeof(sValue), "%s%i", iValue>0?"+":"", iValue);
+				g_SMAPI->Format(sValue, sizeof(sValue), "%s%i", iValue > 0 ? "+" : "", iValue);
 				ClientPrint(iSlot, g_vecPhrases[std::string(sTitlePhrase)].c_str(), g_iPlayerInfo[iSlot].iStats[ST_EXP], sValue);
 			}
 		}

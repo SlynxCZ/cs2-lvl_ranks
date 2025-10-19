@@ -55,7 +55,8 @@ enum LR_SettingType
 	LR_TypeStatistics,
 	LR_OnlineID,
     LR_ShowLevelUpMessage,
-    LR_ShowLevelDownMessage
+    LR_ShowLevelDownMessage,
+	LR_MinimumKills
 };
 
 enum LR_SettingStatsType
