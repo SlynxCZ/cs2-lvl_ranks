@@ -1,4 +1,4 @@
-name: Build AMBuild Plugin
+﻿name: Build AMBuild Plugin
 
 on:
   push:
@@ -58,8 +58,6 @@ jobs:
             https://github.com/alliedmodders/hl2sdk.git hl2sdk-cs2
             
           cd ../..
-
-          git clone https://github.com/pisex/SchemaEntity.git
           
       - name: Configure and build plugin
         run: |
