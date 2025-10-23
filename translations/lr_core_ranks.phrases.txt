@@ -181,13 +181,4 @@
 		"es"		"Elite Global"
 		"de"		"Die Globale Elite"
 	}
-	"NotEnoughKills"
-    {
-    	"en"	"You need at least %i kills to start earning ranks!"
-    	"ru"	"Вам нужно минимум %i убийств, чтобы начать получать звания!"
-    	"ua"	"Вам потрібно щонайменше %i вбивств, щоб почати отримувати ранги!"
-        "chi"	"你需要至少 %i 次击杀才能开始获得段位！"
-        "es"	"¡Necesitas al menos %i bajas para empezar a ganar rangos!"
-    	"de"	"Du brauchst mindestens %i Kills, um Ränge zu verdienen!"
-    }
 }
