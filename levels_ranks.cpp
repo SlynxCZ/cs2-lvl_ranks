@@ -577,11 +577,11 @@ bool NotifClient(int iSlot, int iValue, const char* sTitlePhrase, bool bAllow = 
 		int iPlayerKills = g_iPlayerInfo[iSlot].iStats[ST_KILLS];
 		int iRemaining = iMinKills - iPlayerKills;
 
-		if (iMinKills > 0 && iPlayerKills < iMinKills)
+		if (iMinKills > 0 && iPlayerKills < iMinKills && iValue > 0)
 		{
 			float now = g_pUtils->GetCGlobalVars()->curtime;
 
-			if (now - g_iPlayerInfo[iSlot].flLastMinKillsNoticeTime > 0.01f)
+			if (now - g_iPlayerInfo[iSlot].flLastMinKillsNoticeTime > 1.0f)
 			{
 				g_iPlayerInfo[iSlot].flLastMinKillsNoticeTime = now;
 
@@ -621,8 +621,14 @@ bool NotifClient(int iSlot, int iValue, const char* sTitlePhrase, bool bAllow = 
 			if (g_Settings[LR_ShowUsualMessage] == 1)
 			{
 				char sValue[64];
-				g_SMAPI->Format(sValue, sizeof(sValue), "%s%i", iValue > 0 ? "+" : "", iValue);
-				ClientPrint(iSlot, g_vecPhrases[std::string(sTitlePhrase)].c_str(), g_iPlayerInfo[iSlot].iStats[ST_EXP], sValue);
+
+				if (iValue > 0)
+					g_SMAPI->Format(sValue, sizeof(sValue), "+%i", iValue);
+				else
+					g_SMAPI->Format(sValue, sizeof(sValue), "%i", abs(iValue));
+
+				ClientPrint(iSlot, g_vecPhrases[sTitlePhrase].c_str(),
+							g_iPlayerInfo[iSlot].iStats[ST_EXP], sValue);
 			}
 		}
 
@@ -1987,7 +1993,7 @@ const char* LR::GetLicense()
 
 const char* LR::GetVersion()
 {
-	return "1.2.3";
+	return "1.2.4";
 }
 
 const char* LR::GetDate()
@@ -2002,7 +2008,7 @@ const char *LR::GetLogTag()
 
 const char* LR::GetAuthor()
 {
-	return "Pisex";
+	return "Pisex, Slynx";
 }
 
 const char* LR::GetDescription()
@@ -2017,5 +2023,5 @@ const char* LR::GetName()
 
 const char* LR::GetURL()
 {
-	return "https://discord.gg/g798xERK5Y";
+	return "https://discord.gg/g798xERK5Y, https://slynxdev.cz";
 }
