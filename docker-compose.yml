@@ -1,6 +1,0 @@
-services:
-  builder:
-    image: ambuilder
-    build: .
-    volumes:
-      - '.:/app/source'

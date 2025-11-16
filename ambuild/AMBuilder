@@ -11,6 +11,7 @@ for sdk_target in MMSPlugin.sdk_targets:
   cxx = sdk_target.cxx
   cxx.cxxflags += ['-Wno-invalid-offsetof']
 
+  projectPath = os.path.join(builder.sourcePath, '../')
   binary = MMSPlugin.HL2Library(builder, cxx, MMSPlugin.plugin_name, sdk)
 
   binary.custom = [builder.tools.Protoc(protoc = sdk_target.protoc, sources = [
@@ -18,14 +19,14 @@ for sdk_target in MMSPlugin.sdk_targets:
   ])]
   
   binary.compiler.cxxincludes += [
-    os.path.join(builder.sourcePath, 'include'),
-    os.path.join(builder.sourcePath, 'SchemaEntity'),
-    os.path.join(builder.sourcePath, 'protobufs'),
+    os.path.join(projectPath, 'include'),
+    os.path.join(projectPath, 'SchemaEntity'),
+    os.path.join(projectPath, 'protobufs'),
   ]
 
   binary.sources += [
-    'levels_ranks.cpp',
-    os.path.join('SchemaEntity', 'schemasystem.cpp'),
+    os.path.join(projectPath, 'levels_ranks.cpp'),
+    os.path.join(projectPath, 'SchemaEntity', 'schemasystem.cpp'),
   ]
 
   if cxx.target.arch == 'x86':
