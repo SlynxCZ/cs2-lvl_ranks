@@ -848,12 +848,12 @@
 
 	"NotEnoughKills"
     {
-    	"en"	"You need at least %i kills to start earning ranks!"
-    	"ru"	"Вам нужно минимум %i убийств, чтобы начать получать звания!"
-    	"ua"	"Вам потрібно щонайменше %i вбивств, щоб почати отримувати ранги!"
-    	"chi"	"你需要至少 %i 次击杀才能开始获得段位！"
-        "es"	"¡Necesitas al menos %i bajas para empezar a ganar rangos!"
-    	"de"	"Du brauchst mindestens %i Kills, um Ränge zu verdienen!"
-    	"pt"	"Você precisa de pelo menos %i abates para começar a ganhar patentes!"
+        "en"    "You need %i more kills to start earning ranks!"
+        "ru"    "Вам нужно ещё %i убийств, чтобы начать получать звания!"
+        "ua"    "Вам потрібно ще %i вбивств, щоб почати отримувати ранги!"
+        "chi"   "你还需要 %i 次击杀才能开始获得段位！"
+        "es"    "¡Necesitas %i bajas más para empezar a ganar rangos!"
+        "de"    "Du brauchst noch %i Kills, um Ränge zu erhalten!"
+        "pt"    "Você precisa de mais %i abates para começar a ganhar patentes!"
     }
 }

@@ -301,12 +301,12 @@ struct LR_PlayerInfo
 {
 	bool bHaveBomb;
 	bool bInitialized;
-
 	std::string szAuth;
 	int  iStats[13];
 	int  iSessionStats[13];
 	int  iRoundExp;
 	int  iKillStreak;
+	float flLastMinKillsNoticeTime;
 };
 
 #endif //_INCLUDE_METAMOD_SOURCE_STUB_PLUGIN_H_

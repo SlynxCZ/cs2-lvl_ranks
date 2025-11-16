@@ -6,6 +6,7 @@ builder.SetBuildFolder('package')
 metamod_folder = builder.AddFolder(os.path.join('addons', 'metamod'))
 bin_folder_path = os.path.join('addons', MMSPlugin.plugin_name)
 bin_folder = builder.AddFolder(bin_folder_path)
+projectPath = os.path.join(builder.sourcePath, '../')
 
 for cxx in MMSPlugin.all_targets:
   if cxx.target.arch == 'x86_64':
@@ -37,9 +38,9 @@ for task in MMSPlugin.binaries:
 builder.AddCopy(os.path.join(builder.buildPath, MMSPlugin.plugin_name + '.vdf'), metamod_folder)
 
 configs_folder = builder.AddFolder(os.path.join('addons', 'configs', 'levels_ranks'))
-builder.AddCopy(os.path.join(builder.sourcePath, 'configs', 'settings.ini'), configs_folder)
+builder.AddCopy(os.path.join(projectPath, 'configs', 'settings.ini'), configs_folder)
 configs_folder = builder.AddFolder(os.path.join('addons', 'translations'))
-builder.AddCopy(os.path.join(builder.sourcePath, 'translations', 'lr_core_ranks.phrases.txt'), configs_folder)
-builder.AddCopy(os.path.join(builder.sourcePath, 'translations', 'lr_core.phrases.txt'), configs_folder)
+builder.AddCopy(os.path.join(projectPath, 'translations', 'lr_core_ranks.phrases.txt'), configs_folder)
+builder.AddCopy(os.path.join(projectPath, 'translations', 'lr_core.phrases.txt'), configs_folder)
 configs_folder = builder.AddFolder(os.path.join('addons', 'data'))
-builder.AddCopy(os.path.join(builder.sourcePath, 'data', 'lr_data.ini'), configs_folder)
+builder.AddCopy(os.path.join(projectPath, 'data', 'lr_data.ini'), configs_folder)

@@ -574,13 +574,24 @@ bool NotifClient(int iSlot, int iValue, const char* sTitlePhrase, bool bAllow = 
 	if (CheckStatus(iSlot) && (bAllow || g_bAllowStatistic))
 	{
 		int iMinKills = g_Settings[LR_MinimumKills];
-		if (iMinKills > 0 && g_iPlayerInfo[iSlot].iStats[ST_KILLS] < iMinKills)
+		int iPlayerKills = g_iPlayerInfo[iSlot].iStats[ST_KILLS];
+		int iRemaining = iMinKills - iPlayerKills;
+
+		if (iMinKills > 0 && iPlayerKills < iMinKills)
 		{
-			if (g_Settings[LR_ShowUsualMessage])
+			float now = g_pUtils->GetCGlobalVars()->curtime;
+
+			if (now - g_iPlayerInfo[iSlot].flLastMinKillsNoticeTime > 0.01f)
 			{
-				ClientPrint(iSlot, g_vecPhrases[std::string("NotEnoughKills")].c_str(), iMinKills);
+				g_iPlayerInfo[iSlot].flLastMinKillsNoticeTime = now;
+
+				if (g_Settings[LR_ShowUsualMessage])
+				{
+					ClientPrint(iSlot, g_vecPhrases["NotEnoughKills"].c_str(), iRemaining);
+				}
 			}
-			return false;
+
+			return true;
 		}
 
 		g_pLRApi->SendOnExpChangedPreHook(iSlot, iValue);
