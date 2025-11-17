@@ -1568,6 +1568,20 @@ void OnRoundEvent(const char* sName, IGameEvent* event, bool bDontBroadcast)
                     {
                         bool bLose = iTeam != iWinTeam;
 
+                        int iMinKills = g_Settings[LR_MinimumKills];
+                        int iPlayerKills = g_iPlayerInfo[i].iStats[ST_KILLS];
+
+                        if (iPlayerKills < iMinKills)
+                        {
+                            if (g_Settings[LR_ShowUsualMessage] == 2)
+                            {
+                                int iRemaining = iMinKills - iPlayerKills;
+                                ClientPrint(i, g_vecPhrases["NotEnoughKills"].c_str(), iRemaining);
+                            }
+
+                            continue;
+                        }
+
                         if (bLose
                                 ? NotifClient(i, -g_SettingsStats[LR_ExpRoundLose], "RoundLose")
                                 : NotifClient(i, g_SettingsStats[LR_ExpRoundWin], "RoundWin"))
@@ -1586,11 +1600,14 @@ void OnRoundEvent(const char* sName, IGameEvent* event, bool bDontBroadcast)
                     {
                         if (g_iPlayerInfo[i].iRoundExp)
                         {
+                            int absExp = abs(g_iPlayerInfo[i].iRoundExp);
+
                             ClientPrint(
-                                i, g_vecPhrases[std::string(g_iPlayerInfo[i].iRoundExp > 0
-                                                                ? "RoundExpResultGive"
-                                                                : "RoundExpResultTake")].c_str(),
-                                g_iPlayerInfo[i].iRoundExp);
+                                i,
+                                g_vecPhrases[ std::string(g_iPlayerInfo[i].iRoundExp > 0
+                                                            ? "RoundExpResultGive"
+                                                            : "RoundExpResultTake") ].c_str(),
+                                absExp);
                         }
                         else
                         {
