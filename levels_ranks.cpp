@@ -622,7 +622,7 @@ bool NotifClient(int iSlot, int iValue, const char* sTitlePhrase, bool bAllow = 
             strcmp(sTitlePhrase, "HeadShotKill") == 0 ||
             strcmp(sTitlePhrase, "AssisterKill") == 0;
 
-        if (iMinKills > 0 && iPlayerKills < iMinKills && iValue > 0 && isKillEvent)
+        if (isKillEvent && iMinKills > 0 && iPlayerKills < iMinKills)
         {
             float now = g_pUtils->GetCGlobalVars()->curtime;
 
@@ -729,9 +729,10 @@ void OverAllTopPlayers(int iSlot, bool bPlaytime = true)
                 for (int j = 1; results->FetchRow(); j++)
                 {
                     g_SMAPI->Format(sName, sizeof(sName), results->GetString(0));
-                    if (!strcmp(results->GetString(1), g_iPlayerInfo[iSlot].szAuth.c_str())) g_SMAPI->Format(
-                        sBuffer2, sizeof(sBuffer2), "%s %s", g_vecPhrases[std::string(sFrase)].c_str(),
-                        g_vecPhrases[std::string("You")].c_str());
+                    if (!strcmp(results->GetString(1), g_iPlayerInfo[iSlot].szAuth.c_str()))
+                        g_SMAPI->Format(
+                            sBuffer2, sizeof(sBuffer2), "%s %s", g_vecPhrases[std::string(sFrase)].c_str(),
+                            g_vecPhrases[std::string("You")].c_str());
                     else g_SMAPI->Format(sBuffer2, sizeof(sBuffer2), "%s", g_vecPhrases[std::string(sFrase)].c_str());
                     if (bPlaytime) g_SMAPI->Format(sBuffer, sizeof(sBuffer), sBuffer2, j, results->GetFloat(2), sName);
                     else g_SMAPI->Format(sBuffer, sizeof(sBuffer), sBuffer2, j, results->GetInt(2), sName);
@@ -997,8 +998,9 @@ void MyStats(int iSlot)
         const char* szCooldown = GetClientCookie(iSlot, "ResetMyStatsCooldown");
         int iCooldown = szCooldown ? atoi(szCooldown) : 0;
 
-        if (iCooldown == 0 || iCooldown < std::time(0)) g_pMenus->AddItemMenu(
-            hMenu, "2", g_vecPhrases[std::string("MyStatsReset")].c_str());
+        if (iCooldown == 0 || iCooldown < std::time(0))
+            g_pMenus->AddItemMenu(
+                hMenu, "2", g_vecPhrases[std::string("MyStatsReset")].c_str());
         else
         {
             iCooldown = iCooldown - std::time(0);
@@ -1604,9 +1606,9 @@ void OnRoundEvent(const char* sName, IGameEvent* event, bool bDontBroadcast)
 
                             ClientPrint(
                                 i,
-                                g_vecPhrases[ std::string(g_iPlayerInfo[i].iRoundExp > 0
-                                                            ? "RoundExpResultGive"
-                                                            : "RoundExpResultTake") ].c_str(),
+                                g_vecPhrases[std::string(g_iPlayerInfo[i].iRoundExp > 0
+                                                             ? "RoundExpResultGive"
+                                                             : "RoundExpResultTake")].c_str(),
                                 absExp);
                         }
                         else
